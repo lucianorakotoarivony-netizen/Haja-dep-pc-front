@@ -1,0 +1,38 @@
+<div class="auth-container">
+  <h2>Connexion</h2>
+  @if (success()) {
+  <div class="success-msg">
+    ✅ {{ success() }}
+  </div>
+}
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Nom d'utilisateur</label>
+      <input type="text" [value]="username()" 
+             (input)="username.set($any($event.target).value)"
+             placeholder="Votre username" required />
+    </div>
+
+    <div class="form-group">
+      <label>Mot de passe</label>
+      <input type="password" [value]="password()"
+             (input)="password.set($any($event.target).value)"
+             placeholder="Votre mot de passe" required />
+    </div>
+
+    @if (errorStatus()) {
+      <p class="error">{{ errorMessage() }}</p>
+    }
+    <input type="text" name="website" [(ngModel)]="website" style="display:none">
+    <ng-hcaptcha
+      (verify)="onCaptchaSuccess($event)"
+      (expired)="onCaptchaExpired()">
+    </ng-hcaptcha>
+    <button type="submit" [disabled]="auth.authLoading()">
+      {{ auth.authLoading() ? 'Connexion...' : 'Se connecter' }}
+    </button>
+  </form>
+
+  <p>Pas encore de compte ? <a routerLink="/register">S'inscrire</a></p>
+</div>
+

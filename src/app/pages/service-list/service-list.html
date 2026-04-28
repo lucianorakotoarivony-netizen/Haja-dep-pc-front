@@ -1,0 +1,58 @@
+<div class="services-container">
+  <h2 [style.color]="dataService.homeData()?.primaryColor">Nos Services</h2>
+  
+  <div class="services-grid">
+    @if (dataService.serviceDataList().length > 0) {
+      @for (service of dataService.serviceDataList(); track service.id) {
+        <div class="service-card">
+          @if (service.icon) {
+            <div class="service-icon ">
+              <span class="emoji-icon">{{ service.icon }}</span>
+            </div>
+          } @else {
+            <div class="service-icon placeholder-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="2.18" />
+                  <path d="M7 2v20" />
+                  <path d="M17 2v20" />
+                  <path d="M2 12h20" />
+                  <path d="M12 2v20" />
+              </svg>
+            </div>
+}
+          <div class="service-content">
+            <h3>{{ service.name }}</h3>
+            <p class="service-description">{{ service.description | truncate:100}}</p>
+            <a [routerLink]="['/services', service.id]" class="details-btn">
+                Voir détail
+              </a>
+            <div class="service-price" [style.color]="dataService.homeData()?.primaryColor">
+              {{ service.price | ariary}}
+            </div>
+          </div>
+        </div>
+      }
+    } @else if (dataService.errorStatus()) {
+      <div class="error-wrapper-full">
+        <div class="error-container">
+          <div class="error-icon">⚠️</div>
+          <h2>Service indisponible</h2>
+          <p>Impossible de charger la liste des prestations.</p>
+          <button (click)="dataService.loadServiceDataList()" class="retry-btn">Réessayer</button>
+        </div>
+      </div>
+    } @else {
+      @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+        <div class="service-card skeleton">
+          <div class="service-icon skeleton-icon"></div>
+          <div class="service-content">
+            <div class="skeleton-title"></div>
+            <div class="skeleton-text"></div>
+            <div class="skeleton-text short"></div>
+            <div class="skeleton-price"></div>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>

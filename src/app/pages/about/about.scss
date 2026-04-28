@@ -1,0 +1,109 @@
+
+.about-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 20px;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+  }
+}
+
+/* --- Image & Déco --- */
+.image-container {
+  position: relative;
+  
+  img {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 2;
+    animation: fadeIn 0.8s ease-out;
+  }
+
+  .blob-bg {
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    width: 100px;
+    height: 100px;
+    background: #f7fafc;
+    border-radius: 50%;
+    z-index: 1;
+  }
+}
+
+.content-container {
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 25px;
+    font-weight: 800;
+  }
+
+  .text-content {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #4a5568;
+    white-space: pre-wrap;
+    margin-bottom: 40px;
+  }
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 16px 35px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 12px;
+  transition: transform 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-3px);
+  }
+}
+
+/* --- SKELETON ANIMATION --- */
+.skeleton {
+  .sk-image { height: 450px; background: #eee; border-radius: 30px; }
+  .sk-title { height: 50px; width: 60%; background: #eee; margin-bottom: 30px; border-radius: 8px; }
+  .sk-p { height: 20px; width: 100%; background: #eee; margin-bottom: 15px; border-radius: 4px; 
+    &.short { width: 40%; }
+  }
+
+  div {
+    background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+  }
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+
+.error-container {
+  width: 100%; max-width: 800px; text-align: center; padding: 60px 40px; background-color: #fff5f5; border: 1px solid #feb2b2; border-radius: 20px;
+  .error-icon { font-size: 3.5rem; margin-bottom: 20px; display: block; }
+  h2 { font-size: 1.8rem; margin-bottom: 15px; }
+  .retry-btn { padding: 12px 30px; background-color: #c53030; color: white; border: none; border-radius: 8px; cursor: pointer; }
+}
+
+.error-wrapper-full {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}

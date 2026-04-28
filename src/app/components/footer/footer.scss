@@ -1,0 +1,63 @@
+:host {
+  display: block;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  z-index: 100;
+}
+
+footer {
+  padding: 16px 24px;
+  border-top: 3px solid; // Droite horizontale
+
+.footer-content {
+  display: flex;
+  justify-content: space-between; // ← Déjà présent, c'est bon
+  align-items: flex-start;
+  max-width: 100%; // ← Modifié : prend toute la largeur
+  margin: 0;
+  padding: 0 24px; // ← Ajouté : espace sur les côtés
+}
+
+  // Vecteur gauche (colonne perpendiculaire)
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    a {
+      color: #333;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+
+      &:hover {
+        color: #000;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  // Vecteur droit (colonne perpendiculaire)
+  .social-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+      font-size: 24px;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: scale(1.15);
+        color: #000;
+      }
+    }
+  }
+}

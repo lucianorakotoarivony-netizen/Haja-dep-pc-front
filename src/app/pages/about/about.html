@@ -1,0 +1,47 @@
+<div class="about-section">
+  @if (dataService.aboutData()) {
+    <div class="about-grid">
+      <div class="image-container">
+        @if (!dataService.aboutData()?.image){
+          <span>Aucune photo disponible pour l'instant</span>
+        }
+        @else{
+          <div class="blob-bg"></div> <img [src]="dataService.aboutData()?.image" [alt]="dataService.aboutData()?.title">
+        }
+      </div>
+
+      <div class="content-container">
+        <h1 [style.color]="dataService.homeData()?.primaryColor">
+          {{ dataService.aboutData()?.title }}
+        </h1>
+        
+        <div class="text-content">
+          {{ dataService.aboutData()?.content }}
+        </div>
+
+      </div>
+    </div>
+  } @else if (dataService.errorStatus()) {
+    <div class="error-wrapper-full">
+      <div class="error-container">
+        <div class="error-icon">⚠️</div>
+        <h2>Oups !</h2>
+        <p>{{dataService.errorMessage()}}</p>
+        <button (click)="dataService.loadAboutData()" class="retry-btn">Réessayer</button>
+      </div>
+    </div>
+  } @else {
+    <div class="about-grid skeleton">
+      <div class="sk-image"></div>
+      <div class="sk-text">
+        <div class="sk-title"></div>
+        <div class="sk-p"></div>
+        <div class="sk-p"></div>
+        <div class="sk-p short"></div>
+      </div>
+    </div>
+  }
+</div>
+
+
+

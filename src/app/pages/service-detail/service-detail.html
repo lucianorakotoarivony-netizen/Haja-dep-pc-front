@@ -1,0 +1,104 @@
+<div class="detail-wrapper">
+  @if (dataService.serviceDataDetail(); as service) {
+    <div class="detail-container">
+      <!-- Barre de navigation -->
+      <div class="top-nav-bar">
+        <div class="left-nav">
+          <button class="back-btn" (click)="goBack()">
+            <span class="icon">←</span> Retour aux services
+          </button>
+          <div class="arrow-nav">
+            @if (prev(); as prev) {
+              <a [routerLink]="['/services', prev.id]" class="arrow-btn" title="Précédent">‹</a>
+            }
+            @if (next(); as next) {
+              <a [routerLink]="['/services', next.id]" class="arrow-btn" title="Suivant">›</a>
+            }
+          </div>
+        </div>
+        <span class="nav-count">{{ currentIndex() + 1 }} / {{ dataService.serviceDataList().length }}</span>
+      </div>
+
+      <!-- Carte de détail -->
+      <div class="detail-card">
+        <div class="detail-content">
+          <!-- En-tête avec icône et titre -->
+          <div class="header-section">
+            <div class="title-with-icon">
+              @if (service.icon) {
+                <span class="service-emoji-large">{{ service.icon }}</span>
+              } @else {
+                <div class="service-icon-placeholder">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="2.18" />
+                    <path d="M7 2v20" />
+                    <path d="M17 2v20" />
+                    <path d="M2 12h20" />
+                    <path d="M12 2v20" />
+                  </svg>
+                </div>
+              }
+              <h1 [style.color]="dataService.homeData()?.primaryColor">{{ service.name }}</h1>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="content-section">
+            <h3>Description</h3>
+            <p class="description-text">{{ service.description }}</p>
+          </div>
+
+          <!-- Prix -->
+          <div class="price-section">
+            <h3>Tarif</h3>
+            <p class="price-value" [style.color]="dataService.homeData()?.primaryColor">
+              {{ service.price | ariary}}
+            </p>
+          </div>
+
+          <!-- Bouton d'action -->
+          <div class="action-section">
+            <a [href]="'mailto:' + dataService.contactData()?.email" class="contact-btn">
+              Demander un devis
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  } @else if (dataService.errorStatus()) {
+    <div class="error-wrapper-full">
+      <div class="error-container">
+        <div class="error-icon">⚠️</div>
+        <h2>Service introuvable</h2>
+        <p>{{dataService.errorMessage()}}</p>
+        <button (click)="retryLoad()" class="retry-btn">Réessayer</button>
+      </div>
+    </div>
+  } @else {
+    <!-- Skeleton -->
+    <div class="detail-container skeleton-active">
+      <div class="skeleton-back-nav"></div>
+      <div class="detail-card skeleton">
+        <div class="header-section">
+          <div class="title-with-icon">
+            <div class="skeleton-icon-large"></div>
+            <div class="skeleton-title"></div>
+          </div>
+        </div>
+        <div class="content-section">
+          <div class="skeleton-label"></div>
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line short"></div>
+        </div>
+        <div class="price-section">
+          <div class="skeleton-label"></div>
+          <div class="skeleton-price"></div>
+        </div>
+        <div class="action-section">
+          <div class="skeleton-btn"></div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

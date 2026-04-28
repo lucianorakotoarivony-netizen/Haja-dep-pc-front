@@ -1,0 +1,63 @@
+<div class="products-container">
+  <h2 [style.color]="dataService.homeData()?.primaryColor">Logiciels</h2>
+  
+  <div class="products-grid">
+    @if (dataService.softwareDataList().length > 0) {
+      @for (software of dataService.softwareDataList(); track software.id) {
+        <div class="product-card">
+          
+          <!-- Image de fond qui couvre TOUTE la carte -->
+          @if (software.image) {
+            <div class="card-bg-image" [style.background-image]="'url(' + software.image + ')'"></div>
+          }
+          
+          <!-- Zone grise avec l'icône -->
+          <div class="product-icon">
+            <span class="placeholder-icon">🖥️</span>
+          </div>
+          
+          <!-- Zone blanche : contenu -->
+          <div class="product-content">
+            <h3>{{ software.name }}</h3>
+            <p class="product-description">{{ software.description | truncate:100 }}</p>
+            
+            @if (software.version) {
+              <span class="product-version">
+                <i class="icon-shield"></i> {{ software.version }}
+              </span>
+            }
+            
+            <div class="product-footer">
+              <a [routerLink]="['/softwares', software.id]" class="details-btn">Voir détail</a>
+              <div class="product-price" [style.color]="dataService.homeData()?.primaryColor">
+                {{ software.price | ariary }}
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      }
+    } @else if (dataService.errorStatus()) {
+      <div class="error-wrapper-full">
+        <div class="error-container">
+          <div class="error-icon">⚠️</div>
+          <h2>Service indisponible</h2>
+          <p>{{dataService.errorMessage()}}</p>
+          <button (click)="dataService.loadSoftwareDataList()" class="retry-btn">Réessayer</button>
+        </div>
+      </div>
+    } @else {
+      @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+        <div class="product-card skeleton">
+          <div class="skeleton-image"></div>
+          <div class="product-content">
+            <div class="skeleton-title"></div>
+            <div class="skeleton-text"></div>
+            <div class="skeleton-text short"></div>
+            <div class="skeleton-price"></div>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>

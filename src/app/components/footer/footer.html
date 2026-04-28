@@ -1,0 +1,26 @@
+<footer [style.border-top-color]="dataService.homeData()?.primaryColor">
+  <div class="footer-content">
+    <!-- Contacts à gauche -->
+    <div class="contact-info">
+      @if (dataService.contactData()?.email) {
+        <a [href]="'mailto:' + dataService.contactData()?.email">
+          email : {{ dataService.contactData()?.email }}
+        </a>
+      }
+      @if (dataService.contactData()?.phone) {
+        <a [href]="'tel:' + dataService.contactData()?.phone">
+          Téléphone : {{ dataService.contactData()?.phone }}
+        </a>
+      }
+    </div>
+
+    <!-- Réseaux sociaux à droite -->
+    <div class="social-links">
+      @for (social of dataService.socialNetworkData(); track social.id) {
+        <a [href]="social.link" target="_blank" [title]="social.name">
+          <ion-icon [name]="social.icon"></ion-icon>
+        </a>
+      }
+    </div>
+  </div>
+</footer>

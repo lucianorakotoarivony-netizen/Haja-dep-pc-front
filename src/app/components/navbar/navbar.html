@@ -1,0 +1,39 @@
+<nav class="navbar" [style.border-bottom]="'3px solid'+ dataService.homeData()?.primaryColor">
+    <div class="logo-group">
+        @if (dataService.homeData(); as home) {
+            <span class="site_name">{{ home.siteName }}</span>
+            <span class="owner_name">{{ home.ownerName }}</span>
+            
+        }
+        @if (auth.isAuthenticated()){
+        <span class="user-status">
+            <span class="dot"></span>{{ auth.currentUsername() }}
+         </span>
+        }   
+    </div>
+    <button class="hamburger" (click)="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <ul class="nav-links" [class.open]="isMenuOpen()">
+        <li (click)="closeMenu()"><a routerLink="/services" routerLinkActive="active">Mes Services</a></li>
+        <li (click)="closeMenu()"><a routerLink="/hardwares" routerLinkActive="active">Matériels</a></li>
+        <li (click)="closeMenu()"><a routerLink="/softwares" routerLinkActive="active">Logiciels</a></li>
+        <li (click)="closeMenu()"><a routerLink="/about" routerLinkActive="active">A propos</a></li>
+        <li (click)="closeMenu()"><a routerLink="/reviews" routerLinkActive="active">Avis</a></li>
+        
+        @if (auth.isAuthenticated()) {
+            <li (click)="closeMenu()">
+            <a (click)="logout()" style="cursor: pointer">Déconnexion</a>
+            </li>
+        } @else {
+            <li (click)="closeMenu()">
+                <a routerLink="/login" routerLinkActive="active">Connexion</a>
+            </li>
+            <li (click)="closeMenu()"><a routerLink="/register" routerLinkActive="active">Inscription</a></li> 
+        }
+    </ul>
+</nav>
+
+

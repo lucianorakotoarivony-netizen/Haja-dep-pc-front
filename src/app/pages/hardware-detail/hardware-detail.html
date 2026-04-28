@@ -1,0 +1,110 @@
+<div class="detail-wrapper">
+  @if (dataService.hardwareDataDetail(); as hardware) {
+    <div class="detail-container">
+      <!-- Barre de navigation -->
+      <div class="top-nav-bar">
+        <div class="left-nav">
+          <button class="back-btn" (click)="goBack()">
+            <span class="icon">←</span> Retour au matériel
+          </button>
+          <div class="arrow-nav">
+            @if (prev(); as prev) {
+              <a [routerLink]="['/hardwares', prev.id]" class="arrow-btn" title="Précédent">‹</a>
+            }
+            @if (next(); as next) {
+              <a [routerLink]="['/hardwares', next.id]" class="arrow-btn" title="Suivant">›</a>
+            }
+          </div>
+        </div>
+        <span class="nav-count">{{ currentIndex() + 1 }} / {{ dataService.hardwareDataList().length }}</span>
+      </div>
+
+      <!-- Carte de détail -->
+      <div class="detail-card">
+        <!-- Image de fond (spécifique hardware) -->
+        @if (hardware.image) {
+          <div class="detail-bg-image" [style.background-image]="'url(' + hardware.image + ')'"></div>
+        }
+        
+        <div class="detail-content">
+          <!-- En-tête avec icône et titre -->
+          <div class="header-section">
+            <div class="title-with-icon">
+              <div class="product-icon-placeholder">
+                <span class="placeholder-icon">🖥️</span>
+              </div>
+              <h1 [style.color]="dataService.homeData()?.primaryColor">{{ hardware.name }}</h1>
+            </div>
+          </div>
+
+          <!-- Badge de garantie (si présent) -->
+          @if (hardware.warranty) {
+            <div class="warranty-section">
+              <span class="product-warranty">
+                <i class="icon-shield"></i> {{ hardware.warranty }}
+              </span>
+            </div>
+          }
+
+          <!-- Description -->
+          <div class="content-section">
+            <h3>Description</h3>
+            <p class="description-text">{{ hardware.description }}</p>
+          </div>
+
+          <!-- Prix -->
+          <div class="price-section">
+            <h3>Prix</h3>
+            <p class="price-value" [style.color]="dataService.homeData()?.primaryColor">
+              {{ hardware.price | ariary }}
+            </p>
+          </div>
+
+          <!-- Bouton d'action -->
+          <div class="action-section">
+            <a [href]="'mailto:' + dataService.contactData()?.email" class="contact-btn">
+              Commander
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  } @else if (dataService.errorStatus()) {
+    <div class="error-wrapper-full">
+      <div class="error-container">
+        <div class="error-icon">⚠️</div>
+        <h2>Produit introuvable</h2>
+        <p>{{dataService.errorMessage()}}</p>
+        <button (click)="retryLoad()" class="retry-btn">Réessayer</button>
+      </div>
+    </div>
+  } @else {
+    <!-- Skeleton -->
+    <div class="detail-container skeleton-active">
+      <div class="skeleton-back-nav"></div>
+      <div class="detail-card skeleton">
+        <div class="detail-content">
+          <div class="header-section">
+            <div class="title-with-icon">
+              <div class="skeleton-icon-large"></div>
+              <div class="skeleton-title"></div>
+            </div>
+          </div>
+          <div class="content-section">
+            <div class="skeleton-label"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line short"></div>
+          </div>
+          <div class="price-section">
+            <div class="skeleton-label"></div>
+            <div class="skeleton-price"></div>
+          </div>
+          <div class="action-section">
+            <div class="skeleton-btn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

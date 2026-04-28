@@ -1,0 +1,41 @@
+<div class="auth-container">
+  <h2>Inscription</h2>
+
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Email</label>
+      <input type="text" [value]="email()"
+             (input)="email.set($any($event.target).value)"
+             placeholder="Entrez votre email" required />
+    </div>
+    <div class="form-group">
+      <label>Nom d'utilisateur</label>
+      <input type="text" [value]="username()"
+             (input)="username.set($any($event.target).value)"
+             placeholder="Choisissez un username" required />
+    </div>
+
+    <div class="form-group">
+      <label>Mot de passe</label>
+      <input type="password" [value]="password()"
+             (input)="password.set($any($event.target).value)"
+             placeholder="Choisissez un mot de passe" required />
+    </div>
+    <!-- honeypot (anti-bot discret 😏) -->
+    <input type="text" name="website" [(ngModel)]="website" style="display:none">
+    <!-- hCaptcha -->
+    <ng-hcaptcha
+      (verify)="onCaptchaSuccess($event)"
+      (expired)="onCaptchaExpired()">
+    </ng-hcaptcha>
+    @if (errorStatus()) {
+      <p class="error">{{ errorMessage() }}</p>
+    }
+    <button type="submit" [disabled]="auth.authLoading()" >
+      {{ auth.authLoading() ? 'Inscription...' : "S'inscrire" }}
+      
+    </button>
+  </form>
+
+  <p>Déjà un compte ? <a routerLink="/login">Se connecter</a></p>
+</div>

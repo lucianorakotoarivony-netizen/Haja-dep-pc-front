@@ -1,0 +1,120 @@
+<div class="reviews-container">
+  <h1>Avis</h1>
+    @if (success()) {
+    <div class="success-msg">
+      ✅ {{ success() }}
+    </div>
+      }
+  @if (auth.isAuthenticated()) {
+    <div class="review-form">
+      <h3>Laisser un avis</h3>
+      
+      <div class="rating-input">
+        @for (star of [1,2,3,4,5]; track star) {
+          <span 
+            class="star" 
+            [class.active]="star <= newRating()"
+            (click)="newRating.set(star)">★</span>
+        }
+      </div>
+
+      <textarea 
+        [value]="newContent()"
+        (input)="newContent.set($any($event.target).value)"
+        placeholder="Partagez votre expérience..."
+        rows="4">
+      </textarea>
+
+      @if (errorStatus()) {
+        <p class="error">{{ errorMessage() }}</p>
+      }
+
+      <button (click)="submitReview()" [disabled]="loading() || !newContent()">
+        {{ loading() ? 'Envoi...' : 'Envoyer' }}
+      </button>
+    </div>
+  } @else {
+    <div class="login-prompt">
+      <p>Connectez-vous pour laisser un avis.</p>
+      <a routerLink="/login">Se connecter</a>
+    </div>
+  }
+
+  <div class="reviews-list">
+  @if (dataService.reviewData().length > 0) {
+    @for (review of dataService.reviewData(); track review.id) {
+  <div class="review-card">
+    <div class="review-header">
+      <div class="review-meta">
+        
+        <span class="username">{{ review.username }}</span>
+        <span class="stars">
+          @for (star of [1,2,3,4,5]; track star) {
+            <span [class.active]="star <= review.rating">★</span>
+          }
+        </span>
+      </div>
+      <span class="date">{{ review.createdAt | date:'dd/MM/yyyy' }}</span>
+      <span>{{ review.status | reviewStatus}}</span>
+    </div>
+
+    @if (editingReview() === review.id) {
+      <!-- Mode édition -->
+      <div class="edit-form">
+        <div class="rating-input">
+          @for (star of [1,2,3,4,5]; track star) {
+            <span class="star"
+              [class.active]="star <= editingRating()"
+              (click)="editingRating.set(star)">★</span>
+          }
+        </div>
+        <textarea
+          [value]="editingContent()"
+          (input)="editingContent.set($any($event.target).value)"
+          rows="3">
+        </textarea>
+        <div class="edit-actions">
+          <button (click)="submitEdit(review.id)" [disabled]="loading()">
+            {{ loading() ? 'Sauvegarde...' : 'Sauvegarder' }}
+          </button>
+          <button class="cancel-btn" (click)="cancelEdit()">Annuler</button>
+        </div>
+      </div>
+    } @else {
+      <!-- Mode lecture -->
+      <p class="content">{{ review.content }}</p>
+      @if (auth.isAuthenticated() && review.username === auth.currentUsername() ) {
+        <div class="review-actions">
+          @if(review.status === "pending"){
+          <button class="edit-btn" (click)="startEdit(review)">Modifier</button>
+          }
+          <button class="delete-btn" (click)="deleteReview(review.id)">Supprimer</button>
+        </div>
+      }
+    }
+  </div>
+}
+
+  } @else if (errorStatus()) {
+    <div class="error-box">
+      <p>{{errorMessage()}}</p>
+      <button (click)="dataService.loadReviewData()">Réessayer</button>
+    </div>
+
+  } @else {
+    @for (i of [1,2,3]; track i) {
+      <div class="review-card skeleton-active">
+        <div class="review-header">
+          <div class="review-meta">
+            <div class="skeleton-username"></div>
+            <div class="skeleton-stars"></div>
+          </div>
+          <div class="skeleton-date"></div>
+        </div>
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line short"></div>
+      </div>
+    }
+  }
+</div>
