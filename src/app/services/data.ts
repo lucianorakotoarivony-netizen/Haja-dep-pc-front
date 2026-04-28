@@ -1,7 +1,7 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { About, Contact, Hardware, Home, Review, Service, SocialNetwork, Software } from '../../models/sites.models';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
