@@ -6,7 +6,7 @@ import { Footer } from './components/footer/footer';
 import { Auth } from './services/auth';
 import { catchError, interval, map, of, Subscription, switchMap } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../environments/environment.development';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -32,7 +32,7 @@ export class App implements OnInit, OnDestroy{
           catchError((error)=>{
             if (error.status === 401){
               this.auth.logout();
-              this.dataService.loadHomeData();
+              this.dataService.loadHomeData(); 
               this.dataService.loadSocialNetworkData();
               this.dataService.loadContactData();
               this.router.navigate(['/login']);

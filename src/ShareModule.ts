@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { environment } from "./environments/environment.development";
+import { environment } from "./environments/environment";
 import { NgHcaptchaModule } from 'ng-hcaptcha'
 
 @NgModule({
