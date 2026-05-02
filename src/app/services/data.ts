@@ -22,7 +22,7 @@ export class Data {
   softwareDataList = signal<Software[]>([]);
   softwareDataDetail = signal<Software | null>(null);
   errorMessage = signal<string | null>(null);
-  errorStatus = signal<Boolean>(false);
+  errorStatus = signal<boolean>(false);
 
   private fixtureFileUrl<T>(data:T):T{
     if (!data) return data;
